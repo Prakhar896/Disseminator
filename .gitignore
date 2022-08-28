@@ -2,3 +2,5 @@ venv/
 .env
 targetFiles/
 emails.csv
+.DS_Store
+__pycache__/
