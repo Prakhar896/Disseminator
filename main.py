@@ -105,8 +105,8 @@ with open(os.path.join(os.getcwd(), 'emails.csv'), 'r') as f:
             msg['Subject'] = subject
 
 
-            personalisedText = attachedText.replace("{email}", receiver_email)
             if attachedText is not None:
+                personalisedText = attachedText.replace("{email}", receiver_email)
                 msg.attach(MIMEText(personalisedText))
 
             with open(os.path.join(os.getcwd(), 'targetFiles', file), 'rb') as f:
