@@ -104,8 +104,10 @@ with open(os.path.join(os.getcwd(), 'emails.csv'), 'r') as f:
             msg['To'] = receiver_email
             msg['Subject'] = subject
 
+
+            personalisedText = attachedText.replace("{email}", receiver_email)
             if attachedText is not None:
-                msg.attach(MIMEText(attachedText))
+                msg.attach(MIMEText(personalisedText))
 
             with open(os.path.join(os.getcwd(), 'targetFiles', file), 'rb') as f:
                 part = MIMEBase("application", "octet-stream")
