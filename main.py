@@ -1,5 +1,5 @@
 from email import message
-import smtplib, ssl, re, os, subprocess, sys, shutil
+import smtplib, ssl, re, os, subprocess, sys, shutil, certifi
 import json, csv, datetime, time
 from email import encoders
 from email.mime.text import MIMEText
@@ -121,7 +121,7 @@ with open(os.path.join(os.getcwd(), 'emails.csv'), 'r') as f:
 
             # msg.attach(MIMEText(open(os.path.join(os.getcwd(), 'targetFiles', file), 'rb').read(), 'base64', 'utf-8'))
 
-            context = ssl.create_default_context()
+            context = ssl.create_default_context(cafile=certifi.where())
             with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
                 server.login(sender_email, password)
                 server.sendmail(sender_email, receiver_email, msg.as_string())
