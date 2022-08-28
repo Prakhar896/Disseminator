@@ -44,7 +44,7 @@ def getIndivEmailEntry(recNum=None, smart=False, emailDomain=False):
     while True:
         file = input("Enter recipient's target file: ")
         if not os.path.isfile(os.path.join(os.getcwd(), 'targetFiles', file)):
-            print("File not found. Please try again.")
+            print("File not found. Add file to 'targetFiles' folder then try again.")
             continue
         else:
             break
