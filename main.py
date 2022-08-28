@@ -78,7 +78,7 @@ if input("Would you like to add some text to all emails you send? (y/n) ") == 'y
     attachedText = input("Please enter the text you would like to attach to every email: ")
 
 print()
-print("Initialising setup...")
+print("Connecting to email servers...")
 time.sleep(2)
 
 port = 465  # For SSL

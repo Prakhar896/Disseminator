@@ -124,16 +124,11 @@ def convertDictToCSVString(emailsDict):
 
 ## Display Menu
 print("""
-Welcome to Setup! It is recommended that you refer to the README.md file (or look at the GitHub repository) 
+Welcome to Setup! 
+It is recommended that you refer to the README.md file (or look at the GitHub repository) 
 for documentation on how to operate Setup and the actual Disseminator program.
 
-Here is the menu of options you can choose from:
-
-    1) Setup Disseminator (For newly-installed copies; generates csv and .env files)
-    2) Add a new recipient email entry
-    3) Delete a recipient email entry
-    4) Edit a recipient email entry (edit recipient's email or target file)
-
+To continue setting up Disseminator, type '1'. (Type '0' to exit)
 """)
 menuOption = input("Enter the choice number: ")
 while True:
