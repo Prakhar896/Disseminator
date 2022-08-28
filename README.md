@@ -2,6 +2,20 @@
 
 Disseminator is a Python program which allows you to disseminate a bunch of unique files that are to be sent separately to multiple emails easily. Setting up and using Disseminator is a piece of cake! You can say goodbye to your days of constant dragging-and-dropping and hitting "Send".
 
+## Table Of Contents
+
+- [Usage](#usage)
+    - [Requirements for Disseminator](#requirements-for-disseminator)
+  - [Setting up](#setting-up)
+    - [Preparing your Google Email Account](#preparing-your-google-email-account)
+  - [Actually Setting up](#actually-setting-up)
+- [Potential Errors](#potential-errors)
+  - [File not Found](#file-not-found)
+- [Adding/Deleting/Editing Recipient Records](#addingdeletingediting-recipient-records)
+  - [Adding Recipient Records](#adding-recipient-records)
+  - [Deleting Recipient Records](#deleting-recipient-records)
+  - [Editing Recipient Records](#editing-recipient-records)
+
 ## Usage
 
 ---
