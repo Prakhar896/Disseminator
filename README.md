@@ -34,18 +34,20 @@ Unfortunately, at this time, Disseminator only works with sender emails that are
 
 1) Go to `myaccount.google.com`.
 
-> This is the MyAccount portal to manage a Google Account user's account.
+> This is the MyAccount portal to manage a Google Account user's account. Ensure you are logged into the portal with the account you intend to use.
 
 2) Click "Security" in the sidebar.
 
 3) Under "Signing in to Google", click "App Passwords" (will only show up if you have 2FA enabled).
 
 <img width="720" alt="Screenshot 2022-08-28 at 2 18 56 PM" src="https://user-images.githubusercontent.com/53103894/187060542-33cf2a9d-8b62-4da8-87ba-0d66b0d5fa7b.png">
+
 > ABOVE: What you should see after this step
 
 4) Select "Custom" in the device dropdown and set the label to anything you want. (recommended is "Disseminator Program")
 
 <img width="649" alt="Screenshot 2022-08-28 at 2 20 06 PM" src="https://user-images.githubusercontent.com/53103894/187060575-979349a3-efaf-4f8f-94a1-c92a9d44e455.png">
+
 > ABOVE: Click the "Custom" label.
 
 5) Click the blue "Generate" button. Copy your App Password at the top right. **You will need it later**
@@ -84,6 +86,7 @@ After saying `y`, you can enter in the common domain that all recipients share. 
 This is the number of times Setup will ask you for recipient details.
 
 <img width="701" alt="Screenshot 2022-08-28 at 2 31 35 PM" src="https://user-images.githubusercontent.com/53103894/187060899-1d461c51-afd6-4663-9c10-f99dd59d2002.png">
+
 > ABOVE: What it would look like to enter the number of recipients if you *do* say `y` to the common domain prompt.
 
 8) Dump all your files to distribute in the `targetFiles` folder in the root folder of Disseminator.
@@ -99,6 +102,7 @@ If you said `y` to the common domain prompt, you may enter the person's name.
 If not, please enter the recipient's full email address.
 
 <img width="683" alt="Screenshot 2022-08-28 at 2 35 30 PM" src="https://user-images.githubusercontent.com/53103894/187061051-fbc91a29-652f-40c8-b0cf-78f71ec839c3.png">
+
 > ABOVE: A series of prompts with responses from the user showing the inputting of recipient details.
 
 8) Voila!
@@ -128,6 +132,7 @@ Pro-tip: For further personalisation, in the text that you type in, you can type
 For example, if you attach the text `Dear {email}, attached are top secret government secrets. Handle carefully.` and an email is sent to `tom.cruise@nass.moe.edu.sg`, the text in the email sent to that recipient will be `Dear tom.cruise@nass.moe.edu.sg, attached are top secret government secrets. Handle carefully.`
 
 <img width="654" alt="Screenshot 2022-08-28 at 2 46 33 PM" src="https://user-images.githubusercontent.com/53103894/187061383-bb3f6c7e-3a3e-44b0-8528-b87ea9baaf35.png">
+
 > ABOVE: A sample personalised text attachment to each email.
 
 5) Sit back and wait.
