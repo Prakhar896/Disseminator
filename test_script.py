@@ -1,6 +1,6 @@
 #### THIS IS A TEST SCRIPT TO GENERATE FILES ONLY, DO NOT USE IN PRODUCTION ####
 
-import os, sys, time
+import os
 
 numFiles = input("How many files would you like to create: ")
 while True:
