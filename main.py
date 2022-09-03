@@ -9,6 +9,20 @@ from werkzeug.utils import secure_filename
 from dotenv import load_dotenv
 load_dotenv()
 
+def getPersonalisedText(text, email):
+    # Email
+    personalisedText = text.replace("{email}", receiver_email)
+
+    # Email Domain Detached
+    personalisedText = personalisedText.replace("{emailDomainDetached}", email.split('@')[0])
+
+    # Custom
+    if personalisedText.find("{custom}") != -1:
+        custom = input("Please enter your custom text for recipient with email '{}': ".format(email))
+        personalisedText = personalisedText.replace("{custom}", custom)
+
+    return personalisedText
+
 ## Check dotenv file
 if 'SenderEmailAppPassword' not in os.environ:
     print("SenderEmailAppPassword field not found in .env file. Please add it and try again.")
@@ -106,7 +120,7 @@ with open(os.path.join(os.getcwd(), 'emails.csv'), 'r') as f:
 
 
             if attachedText is not None:
-                personalisedText = attachedText.replace("{email}", receiver_email)
+                personalisedText = getPersonalisedText(attachedText, receiver_email)
                 msg.attach(MIMEText(personalisedText))
 
             with open(os.path.join(os.getcwd(), 'targetFiles', file), 'rb') as f:

@@ -127,9 +127,7 @@ The subject will be the same for every single email sent.
 
 4) If you would like to add some text to your emails, type `y` when prompted and type in the text. If not, type `n`.
 
-Pro-tip: For further personalisation, in the text that you type in, you can type `{email}` anywhere in the text. That serves as a placeholder which will be replaced with the recipient's email who an email is being sent to.
-
-For example, if you attach the text `Dear {email}, attached are top secret government secrets. Handle carefully.` and an email is sent to `tom.cruise@nass.moe.edu.sg`, the text in the email sent to that recipient will be `Dear tom.cruise@nass.moe.edu.sg, attached are top secret government secrets. Handle carefully.`
+Pro-tip: For further personalisation of the text in each email sent to recipients, refer to the [Personalisation](#personalisation) section.
 
 <img width="654" alt="Screenshot 2022-08-28 at 2 46 33 PM" src="https://user-images.githubusercontent.com/53103894/187061383-bb3f6c7e-3a3e-44b0-8528-b87ea9baaf35.png">
 
@@ -185,6 +183,28 @@ Example clip:
 https://user-images.githubusercontent.com/53103894/187061667-6bdf976c-3bc7-4386-a6b7-51ad4a76c104.mov
 
 ---
+
+## Personalisation
+
+### `{email}` Placeholder
+
+You can add a placeholder in your text attachment to personalise the email to each recipient. Simply add `{email}` in your text attachment and it will be replaced with the recipient's email address.
+
+For example, if you attach the text `Dear {email}, attached are top secret government secrets. Handle carefully.` and an email is sent to `tom.cruise@nass.moe.edu.sg`, the text in the email sent to that recipient will be `Dear tom.cruise@nass.moe.edu.sg, attached are top secret government secrets. Handle carefully.`
+
+### `{emailDomainDetached}` Placeholder
+
+You can add a placeholder in your text attachment to personalise the email to each recipient. Simply add `{emailDomainDetached}` in your text attachment and it will be replaced with the recipient's email without the `@` and the domain.
+
+For example, if you attach the text `Dear {emailDomainDetached}, sup!!` and an email is sent to `tom.cruise@nass.moe.edu.sg`, the text in the email sent to that recipient will be `Dear tom.cruise, sup!!`.
+
+### `{custom}` Placeholder
+
+This placeholder is a bit special; if you add it to your text, you will be prompted to enter the custom text for each recipient just before the email is sent.
+
+For example, if you attach the text `Dear {custom}, attached are top secret government secrets. Handle carefully.`, during the email sending process, you will be prompted to enter the custom text for the recipient just before the email is sent.
+
+
 
 And that's it for the documentation! Thank you for using Disseminator!!!
 
