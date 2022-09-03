@@ -204,7 +204,11 @@ This placeholder is a bit special; if you add it to your text, you will be promp
 
 For example, if you attach the text `Dear {custom}, attached are top secret government secrets. Handle carefully.`, during the email sending process, you will be prompted to enter the custom text for the recipient just before the email is sent.
 
+![Screenshot 2022-09-03 at 3 32 55 PM](https://user-images.githubusercontent.com/53103894/188260909-b38514f2-5131-42b7-8252-1e21c5b63ba4.png)
 
+> ABOVE: The resultant text would be `Dear Mr Tom Cruise, attached are confidential government secrets. Please handle carefully.`
+
+---
 
 And that's it for the documentation! Thank you for using Disseminator!!!
 
