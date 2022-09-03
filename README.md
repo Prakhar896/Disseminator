@@ -154,6 +154,8 @@ This error occurs when keying in recipient details in [Setup](#actually-setting-
 
 After setting up, all recipient records are stored in a CSV file (comma-separated values) called `emails.csv` at the root of the Disseminator folder.
 
+Have a completely different recipient roster you wanna switch to? Simply delete the `emails.csv` file and run Setup again.
+
 ### Adding Recipient Records
 
 To add a recipient record, simply, on a newline, type in their email, followed by a comma, followed by the name of the file (target file) to be sent to them.
