@@ -52,7 +52,7 @@ Unfortunately, at this time, Disseminator only works with sender emails that are
 
 > ABOVE: Click the "Custom" label.
 
-**5) Click the blue "Generate" button. Copy your App Password at the top right. **You will need it later****
+**5) Click the blue "Generate" button. Copy your App Password at the top right. **You will need it later.****
 
 ### Actually setting up
 
