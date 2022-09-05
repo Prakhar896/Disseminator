@@ -9,6 +9,7 @@ Disseminator is a Python program which allows you to disseminate a bunch of uniq
   - [Setting up](#setting-up)
     - [Preparing your Google Email Account](#preparing-your-google-email-account)
   - [Actually Setting up](#actually-setting-up)
+  - [Sending Emails](#sending-emails)
 - [Potential Errors](#potential-errors)
   - [File not Found](#file-not-found)
 - [Adding/Deleting/Editing Recipient Records](#addingdeletingediting-recipient-records)
