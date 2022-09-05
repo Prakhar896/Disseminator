@@ -90,6 +90,28 @@ while True:
 attachedText = None
 if input("Would you like to add some text to all emails you send? (y/n) ") == 'y':
     attachedText = input("Please enter the text you would like to attach to every email: ")
+    if attachedText == "!file":
+        print()
+        print("Creating msg.txt file for long message...")
+        time.sleep(1)
+        print()
+        try:
+            with open(os.path.join(os.getcwd(), 'msg.txt'), 'w') as f:
+                if sys.platform == "darwin":
+                    os.system("open -a TextEdit {}".format(os.path.join(os.getcwd(), 'msg.txt')))
+            
+                print("Disseminator just created a file called 'msg.txt' in the root of the Disseminator folder; please open it and enter your long message in the file.")
+                print("When you are done, save the file and close it.")
+                input("Press Enter to continue when closed...")
+
+            with open(os.path.join(os.getcwd(), 'msg.txt'), 'r') as f:
+                attachedText = f.read()
+            
+            ## Delete msg.txt file
+            os.remove(os.path.join(os.getcwd(), 'msg.txt'))
+        except Exception as e:
+            print("An error occurred while trying to create/get message from/delete msg.txt file. Please try again. Error: {}".format(e))
+            sys.exit(1)
 
 print()
 print("Connecting to email servers...")

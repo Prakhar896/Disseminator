@@ -128,6 +128,8 @@ The subject will be the same for every single email sent.
 
 4) If you would like to add some text to your emails, type `y` when prompted and type in the text. If not, type `n`.
 
+If your message is very long and you do not want to type it in the terminal, type `!file`. Disseminator will then create a `msg.txt` file in the root folder of Disseminator (and will also open it in TextEdit if you are on macOS). You can type your text in there and Disseminator will use that as the text attached for each email. You can also use [personalisation placeholders](#personalisation) in the `msg.txt` file. Do note that the file will automatically be deleted after hitting `Enter` in the terminal to continue the dissemination.
+
 Pro-tip: For further personalisation of the text in each email sent to recipients, refer to the [Personalisation](#personalisation) section.
 
 <img width="654" alt="Screenshot 2022-08-28 at 2 46 33 PM" src="https://user-images.githubusercontent.com/53103894/187061383-bb3f6c7e-3a3e-44b0-8528-b87ea9baaf35.png">
