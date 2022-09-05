@@ -110,7 +110,7 @@ If not, please enter the recipient's full email address.
 
 > ABOVE: A series of prompts with responses from the user showing the inputting of recipient details.
 
-**8) Voila!**
+**9) Voila!**
 
 The setup process is complete! Now, you can begin to send emails!
 
