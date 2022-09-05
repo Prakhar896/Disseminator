@@ -17,6 +17,9 @@ Disseminator is a Python program which allows you to disseminate a bunch of uniq
   - [Deleting Recipient Records](#deleting-recipient-records)
   - [Editing Recipient Records](#editing-recipient-records)
 - [Personalisation](#personalisation)
+  - [{email} Placeholder](#email-placeholder)
+  - [{emailDomainDetached} Placeholder](#emaildomaindetached-placeholder)
+  - [{custom} Placeholder](#custom-placeholder)
 
 ## Usage
 
