@@ -75,7 +75,7 @@ with open(os.path.join(os.getcwd(), 'emails.csv'), 'r') as f:
 print("----")
 
 if input("Are you sure you want to continue? (y/n) ") != 'y':
-    print("Setup will exit...")
+    print("Disseminator will exit...")
     sys.exit(1)
 
 ## Ask for subject and text to attach to every email
