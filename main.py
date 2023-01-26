@@ -1,6 +1,7 @@
 from email import message
 import smtplib, ssl, re, os, subprocess, sys, shutil, certifi
 import json, csv, datetime, time
+from activation import *
 from email import encoders
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -22,6 +23,42 @@ def getPersonalisedText(text, email):
         personalisedText = personalisedText.replace("{custom}", custom)
 
     return personalisedText
+
+## Check activation
+activationCheck = checkForActivation()
+if activationCheck == True:
+    print("Disseminator copy is activated!")
+elif activationCheck == False:
+    print("This copy is not activated! Initializing copy activation...")
+    print()
+    version = None
+    if not os.path.isfile(os.path.join(os.getcwd(), 'version.txt')):
+        version = input("Please enter the version of Disseminator you are using: ")
+        print()
+    else:
+        version = open('version.txt', 'r').read()
+    
+    try:
+        initActivation("910a3w4m", version)
+    except Exception as e:
+        print("MAIN: An error occurred in copy activation. Error: {}".format(e))
+        print("Aborting...")
+        sys.exit(1)
+else:
+    print("This copy's license key needs to verified (every 14 days). Triggering key verification request...")
+    print()
+    version = None
+    if not os.path.isfile(os.path.join(os.getcwd(), 'version.txt')):
+        version = input("Please enter the version of Disseminator you are using: ")
+        print()
+    else:
+        version = open('version.txt', 'r').read()
+    try:
+        makeKVR("910a3w4m", version)
+    except Exception as e:
+        print("MAIN: Failed to make key verification request. Error: {}".format(e))
+        print("Aborting...")
+        sys.exit(1)
 
 ## Check dotenv file
 if 'SenderEmailAppPassword' not in os.environ:
