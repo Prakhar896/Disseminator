@@ -4,6 +4,7 @@ Disseminator is a Python program which allows you to disseminate a bunch of uniq
 
 ## Table Of Contents
 
+- [Activator](#activator)
 - [Usage](#usage)
     - [Requirements for Disseminator](#requirements-for-disseminator)
   - [Setting up](#setting-up)
