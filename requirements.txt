@@ -1,4 +1,4 @@
-certifi==2022.6.15
+certifi==2022.12.7
 charset-normalizer==3.0.1
 getmac==0.9.1
 idna==3.4
