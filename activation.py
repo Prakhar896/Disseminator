@@ -14,12 +14,14 @@ def getActivatorServerLink():
     # Parse URL from this format: <p>URL</p>
     activationServerLink = mesuResponse.text[len("<p>"):len(mesuResponse.text)-len("</p>")]
 
+accountLoginLink = lambda hsn: activationServerLink + "/account/login?hsn={}".format(hsn)
+
 licenseKeyFileContentTemplate = """License Key: {}
 CSN: {}
 HSN: {}
 Last License Check: {}
 
-You may view your product copy activation details and your HSN account at {}/account/login?hsn={}
+You may view your product copy activation details and your HSN account at {}
 
 DO *NOT* MODIFY THIS FILE. THIS FILE CONTAINS A LICENSE KEY ASSOCIATED WITH THIS COPY OF THE SOURCE CODE. THE KEY WAS AUTOMATICALLY GENERATED WHEN THIS COPY WAS ACTIVATED.
 THE KEY IS USED PERIODICALLY TO CHECK FOR VALIDITY WITH SERVERS ONLINE. ACTIVATION COMES AT NO COST AND NO PRIVATE INFORMATION IS SENT ONLINE.
@@ -151,25 +153,38 @@ def initActivation(productID, copyVersion):
     print("---")
     # TODO: Add link in intro message
     print("""
+    ***IMPORTANT***
     Hi there! Thank you for downloading and using this product!
 
-    Before you get started on using the product, activation is recommended. Do not worry! Activation comes at no cost
-    and no private information of yours is sent online. 
-    
-    Activation simply allows for a better user experience for you, as you will be able to manage this copy of this product
-    and others you may download later on the Activator service. If this is your first copy, you will be able to login to the
-    Activator service after activation by clicking the link in the licensekey.txt file that will be generated. (Activation 
-    automatically creates an account for you!)
-
-    Activation will start soon and will take very little time. Should you choose to remain anonymous, you can type 'anon'
-    in the username prompt that will come up next.
+    This product is protected and activated by Activator, a free online tool to help you manage all copies of all sorts of products Activator manages.
+          
+    Let's not waste your time and address any basic concerns you might have:
+        1) Activation is free and, honestly, ridiculously easy.
+        2) Activator does not collect any private information.
+        3) Activator accounts are based on a unique identifier associated with your computer.
+        4) If this is your first Activator-managed product copy on this computer, a new Activator account will be created for you.
+        5) If you already have an Activator account associated with this computer (i.e you have activated an Activator-managed product copy on this computer before), this copy will automatically be linked to your account.
+        6) This copy stores a license key on-device after activation. This key has to be re-verified every 14 days. This is done to ensure that the copy is still valid and has not been de-activated.
+          
+    About the Identifiers:
+        - This copy *locally* uses system identifiers to generate an *unrelated* unique identifier for this computer for Activator to associate with this computer. 
+        - This identifier is called Hardware Serial Number (HSN) and is at the core of your account.
+        - Your privacy is of utmost importance to us, so rest assured that no private information is collected.
+          
+    About Activator
+        - You could totally live your life without ever logging into your Activator account; it can just sit there.
+        - You can login post-activation (or right now, if you already have an account) by visiting the website below and entering your HSN.
+        - Activator has a lot of incredible features for remote copy management such as de-activation, copy version management and much much more.
+        - We *definitely recommend you to use Activator* as it has been made to provide you with an amazing user experience across all Activator-managed products.
 
     For more information, visit: {}
     """.format(activationServerLink))
     time.sleep(4)
     print()
 
-    username = input("Enter your username (will be linked to your Activator account): ")
+    username = input("Enter your username (will be linked to your Activator account, type 'anon' for Anonymous): ")
+    if username == '.bypass':
+        return
     if username.lower() == 'anon':
         username = "Anonymous"
 
@@ -276,10 +291,6 @@ def initActivation(productID, copyVersion):
             print("Product activation unsuccessful; error: {}".format(e))
             sys.exit(1)
 
-    print("Product activation successful! Your license key is: {}".format(licenseKey))
-    print("Writing activation data to licensekey.txt...please wait!")
-    time.sleep(1)
-
     # Write license key to file
     with open("licensekey.txt", "w") as f:
         fileContent = licenseKeyFileContentTemplate.format(
@@ -287,11 +298,16 @@ def initActivation(productID, copyVersion):
             csn,
             hsn,
             datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            activationServerLink,
+            accountLoginLink(hsn),
             hsn
         )
 
         f.write(fileContent)
+
+    print("Product activation successful! Login to your Activator account: {}".format(accountLoginLink(hsn)))
+    print("License key and more information stored in licensekey.txt file.")
+    
+    print()
 
     print("Done! You may now use this copy of the product. Continuing with program execution...")
     print("---")

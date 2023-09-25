@@ -1,5 +1,5 @@
 from email import message
-import smtplib, ssl, re, os, subprocess, sys, shutil, certifi
+import smtplib, ssl, re, os, sys, certifi
 import json, csv, datetime, time
 from activation import *
 from email import encoders
@@ -24,10 +24,35 @@ def getPersonalisedText(text, email):
 
     return personalisedText
 
+def createMessage(senderEmail, receiverEmail, msgSubject, emailText, attachedFilename):
+    msg = MIMEMultipart()
+    msg['From'] = senderEmail
+    msg['To'] = receiverEmail
+    msg['Subject'] = msgSubject
+
+
+    if emailText is not None:
+        personalisedText = getPersonalisedText(emailText, receiverEmail)
+        msg.attach(MIMEText(personalisedText))
+
+    with open(os.path.join(os.getcwd(), 'targetFiles', attachedFilename), 'rb') as f:
+        part = MIMEBase("application", "octet-stream")
+        part.set_payload(f.read())
+            
+    encoders.encode_base64(part)
+
+    part.add_header(
+        "Content-Disposition",
+        "attachment; filename={}".format(secure_filename(attachedFilename)),
+    )
+    msg.attach(part)
+
+    return msg
+
 ## Check activation
 activationCheck = checkForActivation()
 if activationCheck == True:
-    print("Disseminator copy is activated!")
+    pass
 elif activationCheck == False:
     print("This copy is not activated! Initializing copy activation...")
     print()
@@ -75,17 +100,20 @@ elif not os.path.isfile(os.path.join(os.getcwd(), 'emails.csv')):
 # email,file
 # <email>,<file>
 
-## Check if emails.csv file is empty
+emailsData = {}
+
 with open(os.path.join(os.getcwd(), 'emails.csv'), 'r') as f:
     reader = csv.reader(f)
-    if not list(reader):
+
+    tempData = list(reader)
+
+    ## Check if emails.csv file is empty
+    if not tempData:
         print("emails.csv file is empty. Please add emails and try again.")
         sys.exit(1)
 
-## Check if emails.csv file is valid
-with open(os.path.join(os.getcwd(), 'emails.csv'), 'r') as f:
-    reader = csv.reader(f)
-    for row in reader:
+    ## Check if emails.csv file is valid
+    for row in tempData:
         if len(row) != 2:
             print("emails.csv file is invalid. Please check the format and try again. (Invalid Row Length)")
             sys.exit(1)
@@ -95,20 +123,20 @@ with open(os.path.join(os.getcwd(), 'emails.csv'), 'r') as f:
         elif not os.path.isfile(os.path.join(os.getcwd(), 'targetFiles', row[1])):
             print("emails.csv file is invalid. Please check the format and try again. (File Not Present In targetFiles Folder)")
             sys.exit(1)
+        else:
+            emailsData[row[0]] = row[1]
 
 ######
 
 ## Confirm emails with user
 print("----")
 print("PLEASE CONFIRM THAT YOU INTEND TO SEND THE FILES TO THE FOLLOWING EMAILS:")
-with open(os.path.join(os.getcwd(), 'emails.csv'), 'r') as f:
-    reader = csv.reader(f)
-    lineCount = 0
-    for row in reader:
-        lineCount += 1
-        print("{}. Target Email: '{}', Target File: '{}'".format(lineCount, row[0], row[1]))
-    print()
-    print("Total of {} recipients.".format(lineCount))
+lineCount = 0
+for email in emailsData:
+    lineCount += 1
+    print("{}. Target Email: '{}', Target File: '{}'".format(lineCount, email, emailsData[email]))
+print()
+print("Total of {} recipients.".format(lineCount))
 print("----")
 
 if input("Are you sure you want to continue? (y/n) ") != 'y':
@@ -165,45 +193,18 @@ print()
 print("----")
 
 ## Send emails with respective file attached to it
-with open(os.path.join(os.getcwd(), 'emails.csv'), 'r') as f:
-    reader = csv.reader(f)
-    for row in reader:
-        receiver_email = row[0]
-        file = row[1]
+context = ssl.create_default_context(cafile=certifi.where())
+with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
+    server.login(sender_email, password)
 
+    for receiver_email in emailsData:
         try:
-            msg = MIMEMultipart()
-            msg['From'] = sender_email
-            msg['To'] = receiver_email
-            msg['Subject'] = subject
-
-
-            if attachedText is not None:
-                personalisedText = getPersonalisedText(attachedText, receiver_email)
-                msg.attach(MIMEText(personalisedText))
-
-            with open(os.path.join(os.getcwd(), 'targetFiles', file), 'rb') as f:
-                part = MIMEBase("application", "octet-stream")
-                part.set_payload(f.read())
-            
-            encoders.encode_base64(part)
-
-            part.add_header(
-                "Content-Disposition",
-                "attachment; filename={}".format(secure_filename(file)),
-            )
-            msg.attach(part)
-
-            # msg.attach(MIMEText(open(os.path.join(os.getcwd(), 'targetFiles', file), 'rb').read(), 'base64', 'utf-8'))
-
-            context = ssl.create_default_context(cafile=certifi.where())
-            with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
-                server.login(sender_email, password)
-                server.sendmail(sender_email, receiver_email, msg.as_string())
-                print("\n✅ Email sent to {}".format(receiver_email))
-                time.sleep(1)
+            msg = createMessage(sender_email, receiver_email, subject, attachedText, emailsData[receiver_email])
+            server.sendmail(sender_email, receiver_email, msg.as_string())
+            print("\n✅ Email sent to {}".format(receiver_email))
+            time.sleep(1)
         except Exception as e:
-            print("\n❌ ERROR OCCURRED IN SENDING FILE '{}' TO RECIPIENT '{}'. ERROR: {}".format(file, receiver_email, e))
+            print("\n❌ ERROR OCCURRED IN SENDING FILE '{}' TO RECIPIENT '{}'. ERROR: {}".format(emailsData[receiver_email], receiver_email, e))
 
 print()
 print("----")
