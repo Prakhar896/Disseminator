@@ -1,6 +1,6 @@
 from email import message
 import smtplib, ssl, re, os, sys, certifi
-import json, csv, datetime, time
+import csv, time
 from activation import *
 from email import encoders
 from email.mime.text import MIMEText

@@ -16,8 +16,7 @@ except Exception as e:
     print("Setup will exit...")
     sys.exit(1)
 
-import smtplib, ssl, re, subprocess, shutil
-import json, csv, datetime
+import re
 from dotenv import load_dotenv
 load_dotenv()
 
