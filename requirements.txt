@@ -4,6 +4,6 @@ getmac==0.9.1
 idna==3.4
 MarkupSafe==2.1.1
 python-dotenv==0.20.0
-requests==2.28.2
+requests==2.31.0
 urllib3==1.26.14
 Werkzeug==2.2.3
