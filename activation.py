@@ -151,7 +151,6 @@ def initActivation(productID, copyVersion):
 
     # Let user know
     print("---")
-    # TODO: Add link in intro message
     print("""
     ***IMPORTANT***
     Hi there! Thank you for downloading and using this product!
