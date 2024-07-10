@@ -10,12 +10,15 @@ from werkzeug.utils import secure_filename
 from dotenv import load_dotenv
 load_dotenv()
 
-def getPersonalisedText(text, email):
+def getPersonalisedText(text, email, name):
     # Email
     personalisedText = text.replace("{email}", receiver_email)
 
     # Email Domain Detached
     personalisedText = personalisedText.replace("{emailDomainDetached}", email.split('@')[0])
+
+    # Name
+    personalisedText = personalisedText.replace("{name}", name)
 
     # Custom
     if personalisedText.find("{custom}") != -1:
@@ -24,7 +27,7 @@ def getPersonalisedText(text, email):
 
     return personalisedText
 
-def createMessage(senderEmail, receiverEmail, msgSubject, emailText, attachedFilename):
+def createMessage(senderEmail, receiverEmail, msgSubject, emailText, name):
     msg = MIMEMultipart()
     msg['From'] = senderEmail
     msg['To'] = receiverEmail
@@ -32,20 +35,20 @@ def createMessage(senderEmail, receiverEmail, msgSubject, emailText, attachedFil
 
 
     if emailText is not None:
-        personalisedText = getPersonalisedText(emailText, receiverEmail)
+        personalisedText = getPersonalisedText(emailText, receiverEmail, name)
         msg.attach(MIMEText(personalisedText))
 
-    with open(os.path.join(os.getcwd(), 'targetFiles', attachedFilename), 'rb') as f:
-        part = MIMEBase("application", "octet-stream")
-        part.set_payload(f.read())
+    # with open(os.path.join(os.getcwd(), 'targetFiles', attachedFilename), 'rb') as f:
+    #     part = MIMEBase("application", "octet-stream")
+    #     part.set_payload(f.read())
             
-    encoders.encode_base64(part)
+    # encoders.encode_base64(part)
 
-    part.add_header(
-        "Content-Disposition",
-        "attachment; filename={}".format(secure_filename(attachedFilename)),
-    )
-    msg.attach(part)
+    # part.add_header(
+    #     "Content-Disposition",
+    #     "attachment; filename={}".format(secure_filename(attachedFilename)),
+    # )
+    # msg.attach(part)
 
     return msg
 
@@ -114,15 +117,15 @@ with open(os.path.join(os.getcwd(), 'emails.csv'), 'r') as f:
 
     ## Check if emails.csv file is valid
     for row in tempData:
-        if len(row) != 2:
+        if len(row) < 2:
             print("emails.csv file is invalid. Please check the format and try again. (Invalid Row Length)")
             sys.exit(1)
         elif not re.match(r"[^@]+@[^@]+\.[^@]+", row[0]):
             print("emails.csv file is invalid. Please check the format and try again. (Invalid Email)")
             sys.exit(1)
-        elif not os.path.isfile(os.path.join(os.getcwd(), 'targetFiles', row[1])):
-            print("emails.csv file is invalid. Please check the format and try again. (File Not Present In targetFiles Folder)")
-            sys.exit(1)
+        # elif not os.path.isfile(os.path.join(os.getcwd(), 'targetFiles', row[1])):
+        #     print("emails.csv file is invalid. Please check the format and try again. (File Not Present In targetFiles Folder)")
+        #     sys.exit(1)
         else:
             emailsData[row[0]] = row[1]
 
@@ -130,11 +133,11 @@ with open(os.path.join(os.getcwd(), 'emails.csv'), 'r') as f:
 
 ## Confirm emails with user
 print("----")
-print("PLEASE CONFIRM THAT YOU INTEND TO SEND THE FILES TO THE FOLLOWING EMAILS:")
+print("PLEASE CONFIRM THAT YOU INTEND TO SEND TO THE FOLLOWING EMAILS:")
 lineCount = 0
 for email in emailsData:
     lineCount += 1
-    print("{}. Target Email: '{}', Target File: '{}'".format(lineCount, email, emailsData[email]))
+    print("{}. Target Email: '{}', Name: '{}'".format(lineCount, email, emailsData[email]))
 print()
 print("Total of {} recipients.".format(lineCount))
 print("----")

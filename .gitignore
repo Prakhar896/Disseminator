@@ -5,3 +5,7 @@ emails.csv
 .DS_Store
 __pycache__/
 licensekey.txt
+students.csv
+names.csv
+emailsBackup.csv
+csvGenerator.py
