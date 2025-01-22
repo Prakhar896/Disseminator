@@ -1,7 +1,5 @@
 from email import message
-import smtplib, ssl, re, os, sys, certifi
-import csv, time
-from activation import *
+import smtplib, ssl, re, os, sys, certifi, datetime, csv, time
 from email import encoders
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -50,40 +48,30 @@ def createMessage(senderEmail, receiverEmail, msgSubject, emailText, attachedFil
     return msg
 
 ## Check activation
-activationCheck = checkForActivation()
-if activationCheck == True:
-    pass
-elif activationCheck == False:
-    print("This copy is not activated! Initializing copy activation...")
-    print()
-    version = None
-    if not os.path.isfile(os.path.join(os.getcwd(), 'version.txt')):
-        version = input("Please enter the version of Disseminator you are using: ")
-        print()
+def checkForActivation():
+    if not os.path.exists(os.path.join(os.getcwd(), "licensekey.txt")):
+        return False
     else:
-        version = open('version.txt', 'r').read()
-    
+        with open("licensekey.txt", 'r') as f:
+            # If last license check is more than 14 days prior, return False
+            if (datetime.datetime.now() - datetime.datetime.strptime(f.readlines()[3].split("\n")[0][len("Last License Check: ")::], "%Y-%m-%d %H:%M:%S")).days > 14:
+                return "Verify"
+            else:
+                return True
+
+# Check for copy activation (Activator DRM Process)
+status = checkForActivation()
+if status != True:
     try:
-        initActivation("910a3w4m", version)
+        import activation
+        if status == False:
+            activation.initActivation("910a3w4m", "1.0.7")
+        elif status == "Verify":
+            activation.makeKVR("910a3w4m", "1.0.7")
     except Exception as e:
-        print("MAIN: An error occurred in copy activation. Error: {}".format(e))
-        print("Aborting...")
-        sys.exit(1)
-else:
-    print("This copy's license key needs to verified (every 14 days). Triggering key verification request...")
-    print()
-    version = None
-    if not os.path.isfile(os.path.join(os.getcwd(), 'version.txt')):
-        version = input("Please enter the version of Disseminator you are using: ")
-        print()
-    else:
-        version = open('version.txt', 'r').read()
-    try:
-        makeKVR("910a3w4m", version)
-    except Exception as e:
-        print("MAIN: Failed to make key verification request. Error: {}".format(e))
-        print("Aborting...")
-        sys.exit(1)
+        print("ERROR: Activation failed to initialize. Error: {}".format(e))
+        if input() != "skip":
+            sys.exit(1)
 
 ## Check dotenv file
 if 'SenderEmailAppPassword' not in os.environ:
